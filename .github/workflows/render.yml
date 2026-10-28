@@ -13,6 +13,7 @@ on:
       - render/**
       - cover/**
       - music/**
+      - .github/workflows/**
 
 permissions:
   contents: write             # 发布 Release 需要
@@ -27,10 +28,10 @@ env:
 jobs:
   render:
     name: 渲染第 ${{ matrix.part }} 块
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 60
     strategy:
-      fail-fast: true
+      fail-fast: false        # 一块出错不连累其它块，方便看是哪一块的问题
       matrix:
         part: [0, 1, 2, 3, 4, 5, 6]
     steps:
@@ -41,7 +42,10 @@ jobs:
         with: { python-version: '3.12' }
       - name: 安装渲染器
         run: |
+          set -x
+          cat /etc/os-release | head -3
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          ffmpeg -version | head -1
           npm install --no-audit --no-fund
           npx playwright install --with-deps chromium
       - name: 时间轴
@@ -58,7 +62,7 @@ jobs:
   finish:
     name: 拼接 · 配乐 · 字幕 · 发布
     needs: render
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
