@@ -70,7 +70,7 @@ const fs = require('fs'), path = require('path'), { spawn } = require('child_pro
   }
   let events = await page.evaluate(() => EVENTS);
   if (mode === 'chunk') events = events.filter(e => e[0] >= keepF / 30 - 1e-6 && e[0] < end / 30 - 1e-6);
-  fs.writeFileSync(evOut, JSON.stringify(events));
+  if (mode !== 'preview') fs.writeFileSync(evOut, JSON.stringify(events));   // 预览不覆盖整片的事件记录
   if (ff) { ff.stdin.end(); await new Promise(r => ff.on('close', r)); }
   await browser.close();
   console.log('done', ((Date.now() - t0) / 1000).toFixed(0) + 's');

@@ -630,31 +630,85 @@ scene('walk', () => lt('walk', 0), () => secEnd('walk'), () => {
   };
 }, { bloom: 0.7 });
 
-// ---------- 10c. 光海 ----------
+// ---------- 10c. 结尾：四段闪回 → 光海一起亮起来 ----------
+function circPts(x, y, r, n = 40, a0 = 0, a1 = TAU) { const p = []; for (let i = 0; i <= n; i++) { const t = a0 + (a1 - a0) * i / n; p.push([x + Math.cos(t) * r, y + Math.sin(t) * r]); } return p; }
+const RECAP = [
+  { zh: '两只钟', en: 'CLOCKS', f: 0.10, draw(x, y, s, a, u) {
+      const cy = y - 18 * s; gline(circPts(x, cy, 30 * s), CREAM, a, 1.5);
+      gline([[x, cy], [x + 14 * s, cy - 12 * s]], CREAM, a, 1.5); gline([[x, cy], [x - 4 * s, cy - 20 * s]], CREAM, a, 1.5);
+      const th = 0.38 * Math.sin(gph(NOW, 4)), bx = x + Math.sin(th) * 52 * s, by = cy + 30 * s + Math.cos(th) * 52 * s;
+      gline([[x, cy + 30 * s], [bx, by]], CREAM, a, 1.3); add(); dot(SP.warm, bx, by, 26 * s, 0.9 * a); norm_(); } },
+  { zh: '一座桥', en: 'BRIDGE', f: 0.36, draw(x, y, s, a) {
+      const dy = y + 18 * s, T = 40 * s, X1 = 36 * s, X2 = 78 * s;
+      gline([[x - X2, dy], [x + X2, dy]], CREAM, a, 1.6);
+      [-X1, X1].forEach(o => gline([[x + o, dy + 10 * s], [x + o, dy - T]], CREAM, a, 1.5));
+      const cy = xx => { const ax = Math.abs(xx - x); return ax <= X1 ? dy - T + (T - 10 * s) * (1 - (ax / X1) ** 2) : dy - T + T * (ax - X1) / (X2 - X1); };
+      const cab = []; for (let i = 0; i <= 60; i++) { const xx = x - X2 + 2 * X2 * i / 60; cab.push([xx, cy(xx)]); } gline(cab, CREAM, 0.8 * a, 1.2);
+      for (let xx = x - X1 + 9 * s; xx < x + X1 - 4 * s; xx += 9 * s) line(xx, cy(xx), xx, dy, CREAM, 0.35 * a, 1);
+      [-X1, X1].forEach(o => { add(); dot(SP.warm, x + o, dy - T, 16 * s, 0.8 * a); norm_(); }); } },
+  { zh: '一张电网', en: 'POWER GRID', f: 0.61, draw(x, y, s, a) {
+      const t = y - 50 * s, bt_ = y + 44 * s;
+      gline([[x - 26 * s, bt_], [x - 6 * s, t], [x + 6 * s, t], [x + 26 * s, bt_]], CREAM, a, 1.4);
+      gline([[x - 40 * s, t + 16 * s], [x + 40 * s, t + 16 * s]], CREAM, a, 1.4); gline([[x - 30 * s, t + 36 * s], [x + 30 * s, t + 36 * s]], CREAM, a, 1.4);
+      gline([[x - 20 * s, bt_ - 20 * s], [x + 13 * s, t + 50 * s], [x - 13 * s, t + 50 * s], [x + 20 * s, bt_ - 20 * s]], CREAM, 0.6 * a, 1.1);
+      [[-40, 16], [40, 16], [-30, 36], [30, 36]].forEach(([ox, oy]) => { add(); dot(SP.warm, x + ox * s, t + oy * s, (12 + 8 * Math.pow(Math.abs(Math.cos(gph(NOW, 2))), 8)) * s, 0.9 * a); norm_(); }); } },
+  { zh: '一颗大脑', en: 'BRAIN', f: 0.84, draw(x, y, s, a) {
+      gline(BRAIN_C.map(p => [x + p[0] * 0.2 * s, y - 4 * s + p[1] * 0.2 * s]), CREAM, a, 1.5, true);
+      add(); dot(SP.teal, x, y - 6 * s, 24 * s, (0.5 + 0.4 * Math.sin(gph(NOW, 1))) * a); norm_(); } },
+];
 scene('sea', () => lt('end', 0), () => secEnd('end'), () => {
   const r = rng(808), N = 2600;
   const P = Array.from({ length: N }, () => ({ x: (r() - 0.5) * 6000, z: Math.pow(r(), 0.7) * 5000, ph: r() * TAU, w: TAU / (4 * BEAT) * (1 + gauss(r) * 0.08) }));
+  const hit = [false, false, false, false]; let finalHit = false;
   return (u, a, dur) => {
-    const K = 0.25 + 1.6 * ss(2, dur - 4, u);
+    const L = k => lt('end', k) - lt('end', 0);
+    const S = ss(L(2) - 0.5, L(4), u);                     // 同步程度：从"该让它发生的地方"开始收拢
+    const F = ss(L(4) - 0.2, L(4) + 1.0, u);              // 最后一句：整片一起亮
+    const recapA = 1 - ss(L(2) - 0.4, L(2) + 0.5, u);
+    const K = 0.25 + 2.4 * S, pc = 0.3 + 1.6 * S;
     let cx = 0, sy = 0; P.forEach(p => { cx += Math.cos(p.ph); sy += Math.sin(p.ph); });
     const R = Math.hypot(cx, sy) / N, psi = Math.atan2(sy, cx);
     let fires = 0;
-    const cam = Cam([0, lerp(160, 520, easeIO(u / dur)), lerp(-300, -100, u / dur)], [0, 0, 2400], 0.95);
+    const cam = Cam([0, lerp(150, 300, easeIO(u / dur)), lerp(-300, -160, u / dur)], [0, 0, 2400], 0.95);
+    // 地平线的城市暖光（最后一句亮起）
+    const hz_ = cam.p(0, 0, 5200);
+    if (hz_ && F > 0.01) { const g = ctx.createLinearGradient(0, hz_[1] - 160, 0, hz_[1] + 120); g.addColorStop(0, 'rgba(232,163,61,0)'); g.addColorStop(0.6, `rgba(232,163,61,${0.1 * F * a})`); g.addColorStop(1, 'rgba(232,163,61,0)'); ctx.fillStyle = g; ctx.fillRect(0, hz_[1] - 160, W, 280); }
     add();
+    const dim = 0.55 + 0.45 * (1 - recapA * ss(L(0), L(0) + 0.6, u));
     P.forEach(p => {
       const prev = Math.cos(p.ph);
       const dd = Math.hypot(p.x, p.z - 1200) / 2000;
-      p.ph += (p.w + K * R * Math.sin(psi - p.ph + dd * 1.6) + 0.5 * ss(2, dur - 4, u) * Math.sin(gph(NOW + DT, 4) + dd * 1.6 - p.ph)) * DT;
+      p.ph += (p.w + K * R * Math.sin(psi - p.ph + dd * 1.6) + pc * Math.sin(gph(NOW + DT, 4) + dd * 1.6 - p.ph)) * DT;
       if (prev < 0.99 && Math.cos(p.ph) >= 0.99) fires++;
       const q = cam.p(p.x, 0, p.z); if (!q) return;
-      const b = Math.pow(0.5 + 0.5 * Math.cos(p.ph), 4), fo = fog(q[3], 200, 5200);
-      dot(q[3] < 1600 ? SP.gold : SP.white, q[0], q[1], (6 + b * 7) * Math.min(5, q[2] * 4), (0.2 + 0.65 * b) * fo * a);
+      const b0 = Math.pow(0.5 + 0.5 * Math.cos(p.ph), 4), fo = fog(q[3], 200, 5200);
+      const b = lerp(b0, 0.62 + 0.38 * b0, F);          // 最后一句：所有灯都亮着，同步的光浪在上面一起起伏
+      const gold = q[3] < 1600 + 4000 * F;
+      const low = 1 - 0.65 * ss(780, 1000, q[1]);          // 字幕区的光点压暗、变小，保证最后一句看得清
+      dot(gold ? SP.gold : SP.white, q[0], q[1], (6 + b * (7 + 7 * S + 5 * F)) * Math.min(5 - 1.8 * F, q[2] * 4) * (0.6 + 0.4 * low), (0.18 + (0.6 + 0.5 * S + 0.2 * F) * b) * fo * a * dim * low);
     });
-    if (fires) { ev('sea', fires / N, R); if (fires > N * 0.3) pump({ bloom: 0.35 }); }
+    if (fires) { ev('sea', fires / N, R); if (fires > N * 0.25) pump({ bloom: 0.25 + 0.45 * F }); }
     norm_();
-    const ta = a * (1 - ss(0, 3, u));
-    const p1 = cam.p(-36, 46, 400), p2 = cam.p(36, 46, 400);
-    add(); if (p1) dot(SP.gold, p1[0], p1[1], 60, ta); if (p2) dot(SP.teal, p2[0], p2[1], 60, ta); norm_();
+    if (!finalHit && u >= L(4) - DT * 0.5) { finalHit = true; pump({ flash: 0.18, bloom: 0.8 }); shock(W / 2, 560, 1300, WARM, 2.0, 1.6); }
+    // 闪回：念到哪个词，哪一段的线稿亮起来
+    if (recapA > 0.01) {
+      const d0 = L(1) - 0.35 - L(0);
+      onUI(() => {
+        const n = RECAP.length, gap = 380, x0 = W / 2 - gap * (n - 1) / 2, y0 = 330, sc = 1.7;
+        RECAP.forEach((it, i) => {
+          const ti = L(0) + it.f * d0, k = ss(ti, ti + 0.5, u), ia = a * k * recapA;
+          if (!hit[i] && u >= ti) { hit[i] = true; pump({ bloom: 0.25 }); }
+          if (ia < 0.01) return;
+          const x = x0 + i * gap, y = y0 + (1 - k) * 14;
+          if (i > 0) { const kk = ss(ti - 0.2, ti + 0.3, u); line(x - gap + 150, y0, x - gap + 150 + (gap - 300) * kk, y0, WARM, 0.35 * a * recapA, 1); }
+          it.draw(x, y, sc, ia, u);
+          txt(it.zh, x, y0 + 150, '24px ' + SERIF, rgba(CREAM, 0.9 * ia), 'center', '6px');
+          txt(it.en, x, y0 + 178, '11px ' + MONO, rgba(GREYB, 0.7 * ia), 'center', '4px');
+          add(); dot(SP.warm, x, y0 - 6, 200 * (1 - k) + 40, 0.5 * (1 - k) * a * recapA); norm_();
+        });
+      });
+    }
+    heading('读懂它', 'LEARN TO READ IT', a * ss(L(1) + 0.3, L(1) + 1.0, u) * (1 - ss(L(2) - 0.4, L(2) + 0.3, u)), 150);
   };
 }, { bloom: 0.75 });
 
