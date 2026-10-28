@@ -1,0 +1,6 @@
+{
+  "name": "tongbu-render",
+  "private": true,
+  "description": "《万物的原理》05 同步·不约而同 —— 画面渲染器",
+  "dependencies": { "playwright": "1.63.0" }
+}

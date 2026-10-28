@@ -1,0 +1,298 @@
+[
+ {
+  "sec": "hook",
+  "zh": "32个节拍器，没人碰，却打成了同一个拍子。",
+  "en": "32 metronomes. No one touches them — yet they beat as one.",
+  "hold": 3.4,
+  "say": "三十二个节拍器，没人碰，却打成了同一个拍子。"
+ },
+ {
+  "sec": "hook",
+  "zh": "可就在几分钟前，它们还是这样的——",
+  "en": "But a few minutes ago, they looked like this —"
+ },
+ {
+  "sec": "hook",
+  "zh": "各打各的，哒哒声乱成一片。",
+  "en": "Each on its own beat. Pure chaos."
+ },
+ {
+  "sec": "hook",
+  "zh": "没有人数拍子，也没有人喊口令。",
+  "en": "No one counts. No one calls the beat."
+ },
+ {
+  "sec": "hook",
+  "zh": "它们却一点一点，自己对上了。",
+  "en": "Yet little by little, they find each other."
+ },
+ {
+  "sec": "hook",
+  "zh": "那它们，是听谁的？",
+  "en": "So who are they listening to?"
+ },
+ {
+  "sec": "title",
+  "zh": "嘿，这里是江离。",
+  "en": "Hey — this is Jiangli.",
+  "show": 2.0
+ },
+ {
+  "sec": "applause",
+  "zh": "这种事，你身边天天都有：音乐会散场，掌声一开始乱成一片，",
+  "en": "You see it all the time: after a concert, the applause starts as a mess —"
+ },
+ {
+  "sec": "applause",
+  "zh": "几秒之内，全场竟拍成同一个节奏：听见掌声，就往前赶一点。",
+  "en": "within seconds, the whole hall claps as one: hear the applause, nudge a little earlier."
+ },
+ {
+  "sec": "walk",
+  "zh": "和喜欢的人并肩走路，脚步也会不知不觉地对上。",
+  "en": "Walk beside someone you like, and your steps fall into line without trying."
+ },
+ {
+  "sec": "scn",
+  "zh": "就连你的身体里，也藏着这样一支队伍。",
+  "en": "Even inside your body, there is a crowd like this."
+ },
+ {
+  "sec": "scn",
+  "zh": "你的大脑深处，有一团大约两万个神经元，叫视交叉上核。",
+  "en": "Deep in your brain sits a cluster of about twenty thousand neurons: the suprachiasmatic nucleus."
+ },
+ {
+  "sec": "scn",
+  "zh": "每一个，都是一只走不准的小钟。",
+  "en": "Each one is a small, unreliable clock."
+ },
+ {
+  "sec": "scn",
+  "zh": "单独拿出来，它们会走快、走慢，甚至停下。",
+  "en": "Alone, they run fast, run slow, or simply stop."
+ },
+ {
+  "sec": "scn",
+  "zh": "连在一起，才成了你身体里那只准时的生物钟。",
+  "en": "Together, they become the punctual clock that runs your body.",
+  "pause": 0.6
+ },
+ {
+  "sec": "huygens",
+  "zh": "第一个认真盯着这件事的，是一个躺在病床上的人。",
+  "en": "The first to study it closely was a man sick in bed."
+ },
+ {
+  "sec": "huygens",
+  "zh": "1665年，荷兰科学家惠更斯，盯着墙上的两个摆钟发呆。",
+  "say": "一六六五年，荷兰科学家惠更斯，盯着墙上的两个摆钟发呆。",
+  "en": "1665. Christiaan Huygens stares at two pendulum clocks on his wall."
+ },
+ {
+  "sec": "huygens",
+  "zh": "他发现了一件怪事：不管一开始怎么摆，",
+  "en": "He noticed something strange: however they started,"
+ },
+ {
+  "sec": "huygens",
+  "zh": "过一阵子，两个钟摆总会变得步调一致。",
+  "en": "after a while, the two pendulums always fell into step."
+ },
+ {
+  "sec": "huygens",
+  "zh": "他故意把其中一个拨乱，半小时之内，它们又对上了。",
+  "en": "He threw one off on purpose. Within half an hour, they were back in step."
+ },
+ {
+  "sec": "huygens",
+  "zh": "他管这叫：“两只钟的交感”。",
+  "say": "他管这叫，两只钟的交感。",
+  "en": "He called it “the sympathy of two clocks.”"
+ },
+ {
+  "sec": "huygens",
+  "zh": "可是，没有人碰它们。是什么在暗中指挥？",
+  "en": "No one touched them. So what was in charge?"
+ },
+ {
+  "sec": "answer",
+  "zh": "答案是：谁也不用指挥。",
+  "en": "The answer: nothing needs to be in charge."
+ },
+ {
+  "sec": "answer",
+  "zh": "两个钟，挂在同一根木梁上。",
+  "en": "The two clocks hung from the same wooden beam."
+ },
+ {
+  "sec": "answer",
+  "zh": "每摆一下，木梁都会轻轻一晃，另一个钟就能“感觉”到。",
+  "say": "每摆一下，木梁都会轻轻一晃，另一个钟就能感觉到。",
+  "en": "Every swing shook the beam a little — and the other clock could “feel” it."
+ },
+ {
+  "sec": "answer",
+  "zh": "就是这一点点晃动，把它们越拉越近。",
+  "en": "That tiny tremor pulled them closer and closer."
+ },
+ {
+  "sec": "answer",
+  "zh": "节拍器也一样：木板，就是它们之间的那根木梁。",
+  "en": "Same with the metronomes: the board is their beam."
+ },
+ {
+  "sec": "kuramoto",
+  "zh": "1975年，日本物理学家仓本由纪，把这件事写成了一个方程。",
+  "say": "一九七五年，日本物理学家仓本由纪，把这件事写成了一个方程。",
+  "en": "In 1975, physicist Yoshiki Kuramoto wrote it down as a single equation."
+ },
+ {
+  "sec": "kuramoto",
+  "zh": "他发现了一道出人意料的门槛。",
+  "en": "He found a surprising threshold."
+ },
+ {
+  "sec": "kuramoto",
+  "zh": "个体之间的联系太弱，怎么等，都是一片杂乱。",
+  "en": "If the connections are too weak, you can wait forever — it stays a mess."
+ },
+ {
+  "sec": "kuramoto",
+  "zh": "可一旦联系强过某个临界值，",
+  "en": "But once they pass a critical strength,"
+ },
+ {
+  "sec": "kuramoto",
+  "zh": "同步就会自己冒出来，迅速传遍整个群体。不需要任何中心。",
+  "en": "synchrony appears on its own and sweeps the whole crowd. No center required."
+ },
+ {
+  "sec": "kuramoto",
+  "zh": "读懂这道门槛，有什么用？",
+  "en": "So what good is knowing where that threshold is?"
+ },
+ {
+  "sec": "bridge",
+  "zh": "2000年6月，伦敦千禧桥开放，第一天就有约九万人走过。",
+  "say": "二零零零年六月，伦敦千禧桥开放，第一天就有约九万人走过。",
+  "en": "June 2000. London’s Millennium Bridge opens; about 90,000 people cross on day one."
+ },
+ {
+  "sec": "bridge",
+  "zh": "桥身有一点轻微的横向晃动，人们为了站稳，不自觉地调整脚步。",
+  "en": "The deck sways slightly sideways. To keep balance, people adjust their steps without thinking."
+ },
+ {
+  "sec": "bridge",
+  "zh": "脚步越整齐，桥晃得越厉害；桥晃得越厉害，脚步就越整齐。",
+  "en": "The more in step they walk, the more it sways — and the more it sways, the more in step they walk."
+ },
+ {
+  "sec": "bridge",
+  "zh": "我在土木课上第一次读到它：工程师管这叫“同步横向激励”。",
+  "say": "我在土木课上第一次读到它，工程师管这叫同步横向激励。",
+  "en": "I first read about it in a civil-engineering class: engineers call it “synchronous lateral excitation.”"
+ },
+ {
+  "sec": "bridge",
+  "zh": "开放两天后，这座桥被迫关闭。",
+  "en": "Two days after opening, the bridge was closed."
+ },
+ {
+  "sec": "bridge",
+  "zh": "工程师算出了那道门槛，给桥装上89个阻尼器，把晃动吸走。",
+  "en": "Engineers worked out the threshold and fitted 89 dampers to soak up the sway.",
+  "say": "工程师算出了那道门槛，给桥装上八十九个阻尼器，把晃动吸走。"
+ },
+ {
+  "sec": "bridge",
+  "zh": "2002年重新开放，它稳稳地站到了今天。",
+  "en": "It reopened in 2002, and has stood steady ever since.",
+  "say": "二零零二年重新开放，它稳稳地站到了今天。",
+  "pause": 0.6
+ },
+ {
+  "sec": "grid",
+  "zh": "再看看你头顶的电线。",
+  "en": "Now look at the power lines overhead."
+ },
+ {
+  "sec": "grid",
+  "zh": "同一张电网上，成千上万台发电机，相隔上千公里，",
+  "en": "On one grid, thousands of generators, a thousand kilometres apart,"
+ },
+ {
+  "sec": "grid",
+  "zh": "却都踩着同一个节拍：每秒50次。",
+  "say": "却都踩着同一个节拍，每秒五十次。",
+  "en": "all keep the same beat: fifty times a second."
+ },
+ {
+  "sec": "grid",
+  "zh": "谁跑快了，电网把它往回拽；谁跑慢了，电网把它往前推。",
+  "en": "Run fast, and the grid drags you back. Run slow, and it pushes you on.",
+  "pause": 0.6
+ },
+ {
+  "sec": "cost",
+  "zh": "可同步，也会出错。",
+  "en": "But sync can go wrong."
+ },
+ {
+  "sec": "cost",
+  "zh": "健康的大脑里，神经元只是部分同步，各忙各的。",
+  "en": "In a healthy brain, neurons are only partly in sync — each busy with its own work."
+ },
+ {
+  "sec": "cost",
+  "zh": "可如果太多神经元同时放电，那不是思考，而是癫痫。",
+  "en": "But when too many neurons fire at once, that isn’t thought. It’s a seizure."
+ },
+ {
+  "sec": "cost",
+  "zh": "医生的办法，是在大脑深处植入一枚“脑起搏器”，用微弱的电脉冲，把过度的同步打散。",
+  "en": "Doctors can implant a “brain pacemaker” deep inside, using faint pulses to break the excess sync apart.",
+  "say": "医生的办法，是在大脑深处植入一枚脑起搏器，用微弱的电脉冲，把过度的同步打散。"
+ },
+ {
+  "sec": "cost",
+  "zh": "这样的脑起搏器，我国已经能自己研发制造。",
+  "en": "China now designs and builds these devices itself.",
+  "pause": 0.6
+ },
+ {
+  "sec": "end",
+  "zh": "从两只钟，到一座桥、一张电网、一颗大脑。",
+  "en": "From two clocks, to a bridge, a power grid, a brain."
+ },
+ {
+  "sec": "end",
+  "zh": "人类做的，只是读懂它。",
+  "en": "All we did was learn to read it."
+ },
+ {
+  "sec": "end",
+  "zh": "该让它发生的地方，让它发生；该打散的地方，把它打散。",
+  "en": "Let it happen where it helps. Break it up where it harms."
+ },
+ {
+  "sec": "end",
+  "zh": "钟摆不懂数学。",
+  "en": "Pendulums don’t know math.",
+  "pause": 0.6
+ },
+ {
+  "sec": "end",
+  "zh": "可懂了数学的人，能让一座桥站稳，让一座城的灯同时亮着。",
+  "en": "But people who do can keep a bridge steady — and a whole city’s lights on at once.",
+  "pause": 1.2
+ },
+ {
+  "sec": "outro",
+  "zh": "这里是江离，我们下一个原理见。",
+  "en": "This is Jiangli. See you at the next principle.",
+  "pause": 3.5,
+  "show": 4.2
+ }
+]

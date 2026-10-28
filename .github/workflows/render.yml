@@ -1,0 +1,101 @@
+# 在 GitHub 上出片：整片按场景切成 7 块，7 台机器同时渲染，再拼起来配乐、烧字幕，结果发到 Releases
+name: 渲染成片
+
+on:
+  workflow_dispatch:          # 仓库 Actions 页面手动点 "Run workflow"
+  push:
+    branches: [main]
+    paths:                    # 只有改了文案 / 画面 / 配乐 / 字幕相关文件才自动重渲
+      - script.json
+      - timeline.py
+      - mix.py
+      - make_ass.py
+      - render/**
+      - cover/**
+      - music/**
+
+permissions:
+  contents: write             # 发布 Release 需要
+
+concurrency:
+  group: render
+  cancel-in-progress: true
+
+env:
+  CHUNKS: 7
+
+jobs:
+  render:
+    name: 渲染第 ${{ matrix.part }} 块
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: true
+      matrix:
+        part: [0, 1, 2, 3, 4, 5, 6]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: 安装渲染器
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          npm install --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: 时间轴
+        run: python timeline.py 3.75
+      - name: 渲染
+        run: node render/drive.js chunk ${{ matrix.part }} $CHUNKS build/part_${{ matrix.part }}.mp4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: part_${{ matrix.part }}
+          path: build/part_${{ matrix.part }}.*
+          retention-days: 1
+          compression-level: 0
+
+  finish:
+    name: 拼接 · 配乐 · 字幕 · 发布
+    needs: render
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12', cache: pip }
+      - name: 安装工具
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          ffmpeg -hide_banner -filters | grep -E " (ass|rubberband) " || true
+          pip install -r requirements.txt
+      - uses: actions/download-artifact@v4
+        with: { path: parts, pattern: 'part_*' }
+      - name: 拼接画面
+        run: |
+          python timeline.py 3.75
+          python join_parts.py parts
+      - name: 准备配乐
+        run: python prep_music.py music
+      - name: 配乐 · 字幕 · 合成 · 封面
+        run: python build.py --skip-render --covers
+      - name: 打包封面
+        run: cd build && zip -qr 封面.zip 封面
+      - name: 发布到 Releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="render-${{ github.run_number }}"
+          MSG=$(git log -1 --pretty=%s)
+          # Release 附件名只能用英文，中文写在显示名里
+          cp "build/同步_成片.mp4" build/tongbu05_1080p.mp4
+          cp "build/同步_无字幕版.mp4" build/tongbu05_1080p_nosub.mp4
+          cp "build/同步_字幕.srt" build/tongbu05_subtitles.srt
+          cp "build/封面.zip" build/tongbu05_covers.zip
+          gh release create "$TAG" \
+            "build/tongbu05_1080p.mp4#同步_成片（1080P 中英字幕）.mp4" \
+            "build/tongbu05_1080p_nosub.mp4#同步_无字幕版（1080P）.mp4" \
+            "build/tongbu05_subtitles.srt#同步_字幕.srt" \
+            "build/tongbu05_covers.zip#封面（B站 + 抖音）.zip" \
+            --title "成片 #${{ github.run_number }} · $(TZ=Asia/Shanghai date '+%m-%d %H:%M')" \
+            --notes "对应提交：$MSG"

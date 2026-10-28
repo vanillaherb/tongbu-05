@@ -1,0 +1,13 @@
+node_modules/
+build/
+mus/
+events.json
+events_old.json
+timeline.json
+同步_字幕.srt
+render/prev*/
+parts/
+__pycache__/
+*.pyc
+subcrop.png
+subtest.png
